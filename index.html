@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="icon" type="image/png" href="favicon.ico">
+  		<title>Evercam BIM Integration - Beta</title>
+  		<meta name="description" content="Evercam timelapse constructions cameras">
+  		<meta property="og:title" content="Evercam" />
+  		<meta property="og:url" content="https://project1-evercam.herokuapp.com/" />
+  		<meta property="og:description" content="Evercam timelapse constructions cameras">
+  		<meta property="og:image" content="https://project1-evercam.herokuapp.com/img/logo.png">
+  		<meta property="og:type" content="website" />
+
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, user-scalable=no">
+      <link rel="stylesheet" href="css/style.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="js/jquery-ui.min.js"></script>
+      <script type="text/javascript" src="js/bimOverlay.js"></script>
+      <script type="text/javascript" src="js/eye.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+      <script>
+        $( function() {
+          $("#myRow").draggable();
+        } );
+      </script>
+      <script>
+        window.addEventListener("load", function(event) {
+          $('#loader').hide("slow");
+        });
+      </script>
+
+    </head>
+    <body>
+      <div id="loader">
+        <p>Loading</p>
+        <div class="loading"></div>
+      </div>
+      <span id="dots"><i class="fas fa-bars"></i></span>
+      <div id="myRow" class="draggable" style="display:none">
+        <div id="bar">
+          <span><strong>Editor</strong></span>
+        </div>
+        <!--<div>
+          <input id="closeEditor" type="button" value="X"></input>
+        </div>-->
+       <div id="values" class="col-md-6">
+         <dl>
+           <dt>Fx (Focal Lengths X)</dt>
+           <dd>
+             <input id="Fx" type="range" min="-2.0" max="2.0" value="1.0" step="0.01"/>
+             <span id="Fx_label"></span>
+           </dd>
+           <dt>Fy (Focal Lengths Y)</dt>
+           <dd>
+             <input id="Fy" type="range" min="-2.0" max="2.0" value="1.0" step="0.01"/>
+             <span id="Fy_label"></span>
+           </dd>
+           <dt>Expand Horizontal</dt>
+           <dd>
+             <input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+             <span id="a_label"></span>
+           </dd>
+           <dt>Expand Vertical</dt>
+           <dd>
+             <input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+             <span id="b_label"></span>
+           </dd>
+           <dt>Transparency</dt>
+           <dd>
+             <input id="transparency" type="range" min="0" max="1" value="1" step="any"/>
+           </dd>
+         </dl>
+         <div id="controls2">
+           <div id="size2">
+             <div id="plus"><i class="fas fa-plus"></i></div>
+             <div id="minus"><i class="fas fa-minus"></i></div>
+           </div>
+
+           <div id="arrows">
+             <div id="up"><i class="fas fa-arrow-up"></i></div>
+             <div id="left"><i class="fas fa-arrow-left"></i></div>
+             <div id="right"><i class="fas fa-arrow-right"></i></div>
+             <div id="down"><i class="fas fa-arrow-down"></i></div>
+           </div>
+
+           <div id="rotate">
+             <div id="redo"><i class="fas fa-redo"></i></div>
+             <div id="undo"><i class="fas fa-undo"></i></div>
+           </div>
+
+         </div>
+         <div id="buttons2">
+           <input id="download" type="button" name="Download" value="Download"/>
+           <input type='file' id='getval' name="background-image" />
+           <video id="video" controls style="display:none"></video>
+         </div>
+         <div id="buttons">
+           <input id="ok" type="button" name="Ok" value="Ok"/>
+           <input id="cancel" type="button" name="Cancel" value="Cancel"/>
+           <input id="reset" type="button" name="Reset" value="Reset"/>
+         </div>
+       </div>
+
+     </div>
+
+      <div id="comparison">
+          <img id="myFigure" src="img\snapshot\background.jpg" unselectable="on"></img>
+          <div id="handle"></div>
+          <div id="divisor">
+            <div id="myCanvas" class="col-md-6">
+              <canvas id="canvas"></canvas>
+            </div>
+          </div>
+          <input type="range" min="0" max="100" value="49" id="slider">
+        <div id="player">
+          <div id="mySpan" style="position:absolute; min-width:100px;">
+            <div id="myValue"></div>
+          </div>
+          <div id="ruler">
+            <span id="inicio"><strong>0</strong></span>
+            <input type="range" id="myInput" class="movement" min="0" max="301" value="0" step="any"></imput>
+            <span id="final"><strong id="totaly"></strong></span>
+          </div>
+          <div class="button2" id="first"><i class="fas fa-fast-backward"></i></div>
+          <div class="button2" id="prev">-1</div>
+          <div class="button2" id="play"><i class="fas fa-play"></i></div>
+          <div class="button2" id="next">+1</div>
+          <div class="button2" id="end"><i class="fas fa-fast-forward"></i></div>
+        </div>
+      </div>
+    </body>
+</html>
