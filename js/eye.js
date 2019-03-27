@@ -39,7 +39,7 @@ var FisheyeGl = function FisheyeGl(options){
     x : 1.0,
     y : 1.0
   }
-  var image = options.image || "images/bim/0.png";
+  var image = options.image || "img/bim/0.png";
 
   var selector = options.selector || "#canvas";
   var gl = getGLContext(selector);

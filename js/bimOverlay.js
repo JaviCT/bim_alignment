@@ -10,8 +10,8 @@ var angle = 0;
 var margin = 0;
 var scalex = 1;
 var scaley = 1;
-var translatex = -200;
-var translatey = 0;
+var translatex = -150;
+var translatey = -20;
 
 var timer = 0;
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
       $("#play").empty();
       $("#play").append("<i class='fas fa-play'></i>");
       para = 1;
-      if(image < 361){
+      if(image < 301){
         image = image + 1;
         i = image;
         distorter.setImage(photo[i].src);
@@ -125,7 +125,7 @@ $(document).ready(function() {
 
     function playMedia(){
       if(playClicked == 0){
-        if(image == 361){
+        if(image == 301){
           image = 1;
           i = image;
         }
@@ -135,7 +135,7 @@ $(document).ready(function() {
 
         para = 0;
         var refreshIntervalId = setInterval(function(){
-          if(i < 361 && para == 0){
+          if(i < 301 && para == 0){
             image = i;
             distorter.setImage(photo[i].src);
             document.getElementById("myInput").value = i;
@@ -145,11 +145,11 @@ $(document).ready(function() {
             console.log("PARANDO");
             $("#play").empty();
             $("#play").append("<i class='fas fa-play'></i>");
-            if(i == 361){
+            if(i == 301){
               i = 1;
             }
           }
-          if (i == 361){
+          if (i == 301){
             playClicked = 0;
           }
         }, 50);
@@ -175,8 +175,8 @@ $(document).ready(function() {
       $("#play").empty();
       $("#play").append("<i class='fas fa-play'></i>");
       para = 1;
-      i = 361;
-      image = 361
+      i = 301;
+      image = 301
       distorter.setImage(photo[i].src);
       document.getElementById("myInput").value = image;
     });
@@ -322,6 +322,7 @@ $(document).ready(function() {
     setSliders();
     readSliders();
     distorter.run();
+    distorter.lens.scale -=0.25
 
     window.onresize = resizeGrid;
     setTimeout(resizeGrid, 0);
