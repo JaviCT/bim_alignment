@@ -247,8 +247,12 @@ $(document).ready(function() {
 
     $("#dots").click(function(){
       jQuery('#dots').toggle('show');
-       jQuery('#myRow').toggle('show');
-       jQuery('#controls').toggle('show');
+      jQuery('#myRow').toggle('show');
+      jQuery('#controls').toggle('show');
+    });
+
+    $("#show_nubs").change(function(){
+      jQuery('#nubs').toggle('show');
     });
 
     //distorter
@@ -439,6 +443,205 @@ $(document).ready(function() {
 
     $("#transparency").on('change', showVal2);
     $("#transparency").on('mousemove', showVal2);
+    // $("#tlx").on('mousemove', change_corners);
+    // $("#blx").on('mousemove', change_corners);
+    // $("#try").on('mousemove', change_corners);
+    // $("#bry").on('mousemove', change_corners);
+    // $("#tly").on('mousemove', change_corners);
+    // $("#bly").on('mousemove', change_corners);
+    // $("#trx").on('mousemove', change_corners);
+    // $("#brx").on('mousemove', change_corners);
+    $("#tlx").on('change', change_corners);
+    $("#blx").on('change', change_corners);
+    $("#try").on('change', change_corners);
+    $("#bry").on('change', change_corners);
+    $("#tly").on('change', change_corners);
+    $("#bly").on('change', change_corners);
+    $("#trx").on('change', change_corners);
+    $("#brx").on('change', change_corners);
+
+    function change_corners(){
+      var value_tlx = $("#tlx").val();
+      var value_tly = $("#tly").val();
+      var value_trx = $("#trx").val();
+      var value_try = $("#try").val();
+      var value_brx = $("#brx").val();
+      var value_bry = $("#bry").val();
+      var value_blx = $("#blx").val();
+      var value_bly = $("#bly").val();
+      try {
+        var mine2 = fx.canvas();
+      } catch (e) {
+        alert(e);
+        return;
+      }
+      var can = document.getElementById('canvas');
+      //var img = document.getElementById('myFigure')
+      var img = new Image();
+      img.src = photo[i].src;
+      var texture = mine2.texture(img);
+      var height = $("#canvas").height();
+      var width = $("#canvas").width();
+      var tl_x, tl_y, bl_x, bl_y, lr_x, tr_y, br_x, br_y;
+      tl_x = 1;
+      tl_y = 1;
+      tr_x = width;
+      tr_y = 1;
+      bl_x = 1;
+      bl_y = height;
+      br_x = width;
+      br_y = height;
+      // new_tl_x = 175 + parseFloat(value_tlx);
+      // new_tl_y = 156 + parseFloat(value_tly);
+      // new_tr_x = 496 +parseFloat(value_trx);
+      // new_tr_y = 55.00000000000001+parseFloat(value_try);
+      // new_bl_x = 177+parseFloat(value_blx);
+      // new_bl_y = 285+parseFloat(value_bly);
+      // new_br_x = 504+parseFloat(value_brx);
+      // new_br_y = 330+parseFloat(value_bry);
+      new_tl_x = tl_x + parseFloat(value_tlx);
+      new_tl_y = tl_y + parseFloat(value_tly);
+      new_tr_x = tr_x +parseFloat(value_trx);
+      new_tr_y = tr_y+parseFloat(value_try);
+      new_bl_x = bl_x+parseFloat(value_blx);
+      new_bl_y = bl_y+parseFloat(value_bly);
+      new_br_x = br_x+parseFloat(value_brx);
+      new_br_y = br_y+parseFloat(value_bry);
+      console.log(new_br_y);
+      console.log(value_bry);
+      mine2.draw(texture).perspective([tl_x,tl_y,tr_x,tr_y,bl_x,bl_y,br_x,br_y], [new_tl_x,new_tl_y, new_tr_x,new_tr_y,new_bl_x,new_bl_y,new_br_x,new_br_y]).update();
+      //mine2.draw(texture).perspective([175,156,496,55,161,279,504,330], [tl_x + value_tlx, tl_y + value_tly, tr_x + value_trx, tr_y + value_try, bl_x + value_blx, bl_y + value_bly, br_x + value_brx,br_y + value_bry]).update();
+      var img = new Image();
+      img.src = mine2.toDataURL();
+      distorter.setImage(img.src)
+    }
+
+    function change_corners2(){
+      var height = $("#canvas").height();
+      var width = $("#canvas").width();
+      var tl_x = 1;
+      var tl_y = 1;
+      var tr_x = width;
+      var tr_y = 1;
+      var bl_x = 1;
+      var bl_y = height;
+      var br_x = width;
+      var br_y = height;
+      var new_tl_x = tl_x + nubs[0].x;
+      var new_tl_y = tl_y + nubs[0].y;
+      var new_tr_x = tr_x + nubs[1].x;
+      var new_tr_y = tr_y + nubs[1].y;
+      var new_bl_x = bl_x + nubs[2].x;
+      var new_bl_y = bl_y + nubs[2].y;
+      var new_br_x = br_x + nubs[3].x;
+      var new_br_y = br_y + nubs[3].y;
+      distorter.before = perspectiveNubs;
+      distorter.after = [nubs[0].x,nubs[0].y, nubs[1].x,nubs[1].y,nubs[2].x,nubs[2].y,nubs[3].x,nubs[3].y];
+      distorter.run();
+      perspectiveNubs = [nubs[0].x,nubs[0].y, nubs[1].x,nubs[1].y,nubs[2].x,nubs[2].y,nubs[3].x,nubs[3].y];
+      console.log(perspectiveNubs);
+      tl_x = new_tl_x;
+      tl_y = new_tl_y;
+      tr_x = new_tr_x;
+      tr_y = new_tr_y;
+      bl_x = new_bl_x;
+      bl_y = new_bl_y;
+      br_x = new_br_x;
+      br_y = new_br_y;
+    }
+
+    // Add a div for each nub
+    // $('<div id="nubs"></div>').appendTo('#divisor');
+    var h = $("#canvas").height();
+    var w = $("#canvas").width();
+    var h4 = h/4;
+    var w4 = w/4;
+    //var perspectiveNubs = [175, 156, 496, 55, 161, 279, 504, 330];
+    var perspectiveNubs = [w4, h4, w-w4, h4, w4, h-h4, w-w4, h-h4];
+    //var perspectiveNubs = [0, 0, w, 0, 0, h, w, h];
+    //var w = 640, h = 425;
+    var nubs = [
+      { name: "a", x: perspectiveNubs[0] / w, y: perspectiveNubs[1] / h },
+      { name: "b", x: perspectiveNubs[2] / w, y: perspectiveNubs[3] / h },
+      { name: "c", x: perspectiveNubs[4] / w, y: perspectiveNubs[5] / h },
+      { name: "d", x: perspectiveNubs[6] / w, y: perspectiveNubs[7] / h }
+    ];
+    var nubs2 = [
+      { name: "a", x: perspectiveNubs[0], y: perspectiveNubs[1]},
+      { name: "b", x: perspectiveNubs[2], y: perspectiveNubs[3]},
+      { name: "c", x: perspectiveNubs[4], y: perspectiveNubs[5]},
+      { name: "d", x: perspectiveNubs[6], y: perspectiveNubs[7]}
+    ];
+    for (var i = 0; i < nubs.length; i++) {
+      console.log(i);
+      var nub = nubs[i];
+      var x = nub.x * w;
+      var y = nub.y * h;
+      //$('<div class="nub draggable" id="nub' + i + '"></div>').appendTo('#nubs');
+      $('#nub' + i).css({ left: x, top: y });
+      //nubs[i] = { x: x, y: y };
+    }
+
+    $('#nub0').draggable({
+        drag: function (event, ui) {
+          var offset = $(event.target.parentNode).offset();
+          nubs2[0].x = ui.offset.left - offset.left;
+          nubs2[0].y = ui.offset.top - offset.top;
+          distorter.before = perspectiveNubs;
+          distorter.after = [nubs2[0].x,nubs2[0].y, nubs2[1].x,nubs2[1].y,nubs2[2].x,nubs2[2].y,nubs2[3].x,nubs2[3].y];
+          distorter.run();
+          console.log(distorter.before);
+          console.log(distorter.after);
+        },
+        containment: 'parent',
+        scroll: false
+    });
+
+    $('#nub1').draggable({
+        drag: function (event, ui) {
+          var offset = $(event.target.parentNode).offset();
+          nubs2[1].x = ui.offset.left - offset.left;
+          nubs2[1].y = ui.offset.top - offset.top;
+          distorter.before = perspectiveNubs;
+          distorter.after = [nubs2[0].x,nubs2[0].y, nubs2[1].x,nubs2[1].y,nubs2[2].x,nubs2[2].y,nubs2[3].x,nubs2[3].y];
+          distorter.run();
+          console.log(distorter.before);
+          console.log(distorter.after);
+        },
+        containment: 'parent',
+        scroll: false
+    });
+
+    $('#nub2').draggable({
+        drag: function (event, ui) {
+          var offset = $(event.target.parentNode).offset();
+          nubs2[2].x = ui.offset.left - offset.left;
+          nubs2[2].y = ui.offset.top - offset.top;
+          distorter.before = perspectiveNubs;
+          distorter.after = [nubs2[0].x,nubs2[0].y, nubs2[1].x,nubs2[1].y,nubs2[2].x,nubs2[2].y,nubs2[3].x,nubs2[3].y];
+          distorter.run();
+          console.log(distorter.before);
+          console.log(distorter.after);
+        },
+        containment: 'parent',
+        scroll: false
+    });
+
+    $('#nub3').draggable({
+        drag: function (event, ui) {
+          var offset = $(event.target.parentNode).offset();
+          nubs2[3].x = ui.offset.left - offset.left;
+          nubs2[3].y = ui.offset.top - offset.top;
+          distorter.before = perspectiveNubs;
+          distorter.after = [nubs2[0].x,nubs2[0].y, nubs2[1].x,nubs2[1].y,nubs2[2].x,nubs2[2].y,nubs2[3].x,nubs2[3].y];
+          distorter.run();
+          console.log(distorter.before);
+          console.log(distorter.after);
+        },
+        containment: 'parent',
+        scroll: false
+    });
+
     function showVal2(){
       var value = $("#transparency").val();
       document.getElementById("myCanvas").style.opacity = value;
